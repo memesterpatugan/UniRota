@@ -32,8 +32,8 @@ import agnoData from '../data/agno.json';
         <table id="courses-table">
           <thead>
             <tr>
-              <th>Ders Adı (Opsiyonel)</th>
-              <th>Kredi (AKTS)</th>
+              <th class="hide-mobile">Ders Adı</th>
+              <th>Kredi</th>
               <th>Harf Notu</th>
               <th>İşlem</th>
             </tr>
@@ -105,14 +105,12 @@ import agnoData from '../data/agno.json';
   
   function getGradeOptionsHtml(selectedWeight = -1) {
     return currentGrades.map(g => {
-      // Eğer spesifik bir ağırlık seçiliyse onu koru, yoksa default
       const isSelected = selectedWeight === g.weight ? 'selected' : '';
-      return `<option value="${g.weight}" ${isSelected}>${g.letter} (${g.weight})</option>`;
+      return \`<option value="\${g.weight}" \${isSelected}>\${g.letter} (\${g.weight})</option>\`;
     }).join('');
   }
   
   function refreshAllSelects() {
-    // Katsayılar değiştiğinde tablodaki dropdown'ların içini güncelle
     document.querySelectorAll('.grade-select').forEach(select => {
       const oldVal = parseFloat((select as HTMLSelectElement).value);
       select.innerHTML = getGradeOptionsHtml(oldVal);
@@ -121,12 +119,12 @@ import agnoData from '../data/agno.json';
   
   function createRow() {
     const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><input type="text" class="course-input" placeholder="Matematik..." /></td>
+    tr.innerHTML = \`
+      <td class="hide-mobile"><input type="text" class="course-input" placeholder="Ders..." /></td>
       <td><input type="number" class="credit-input" inputmode="decimal" min="0" step="0.5" value="3" /></td>
-      <td><select class="grade-select">${getGradeOptionsHtml()}</select></td>
+      <td><select class="grade-select">\${getGradeOptionsHtml()}</select></td>
       <td><button class="remove-btn danger-btn">Sil</button></td>
-    `;
+    \`;
     
     tr.querySelector('.remove-btn')!.addEventListener('click', () => {
       tr.remove();
@@ -160,11 +158,10 @@ import agnoData from '../data/agno.json';
   
   clearBtn.addEventListener('click', () => {
     tbody.innerHTML = '';
-    for(let i=0; i<3; i++) createRow(); // 3 boş satır aç
+    for(let i=0; i<3; i++) createRow();
     updateResult();
   });
   
-  // Başlangıçta 3 satır oluştur
   for(let i=0; i<3; i++) createRow();
   updateResult();
 </script>
@@ -212,7 +209,7 @@ import agnoData from '../data/agno.json';
     margin-bottom: 1rem;
   }
   th, td {
-    padding: 0.75rem;
+    padding: 0.5rem;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
   }
@@ -223,6 +220,28 @@ import agnoData from '../data/agno.json';
     border-radius: 4px;
     background: var(--container-bg);
     color: var(--text-color);
+  }
+  
+  /* MOBİL İYİLEŞTİRMELERİ */
+  @media (max-width: 600px) {
+    .hide-mobile {
+      display: none;
+    }
+    th, td {
+      padding: 0.25rem;
+      font-size: 0.85rem;
+    }
+    input, select {
+      padding: 0.4rem;
+      font-size: 0.85rem;
+    }
+    .primary-btn, .danger-btn {
+      padding: 0.4rem 0.5rem;
+      font-size: 0.85rem;
+    }
+    .card {
+      padding: 1rem;
+    }
   }
   .actions {
     display: flex;

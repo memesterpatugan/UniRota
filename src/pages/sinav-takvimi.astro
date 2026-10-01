@@ -12,8 +12,8 @@ import exams from '../data/exams.json';
       {exams.map(exam => (
         <div class="exam-card" data-date={`${exam.exam_date}T10:15:00+03:00`} data-name={exam.name}>
           <h2>{exam.name}</h2>
-          <p><strong>Sınav Tarihi:</strong> {new Date(exam.exam_date).toLocaleDateString('tr-TR')}</p>
-          <p><strong>Başvuru Dönemi:</strong> {new Date(exam.application_start).toLocaleDateString('tr-TR')} - {new Date(exam.application_end).toLocaleDateString('tr-TR')}</p>
+          <p><strong>Sınav Tarihi:</strong> {new Date(exam.exam_date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+          <p><strong>Başvuru Dönemi:</strong> {new Date(exam.application_start).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })} - {new Date(exam.application_end).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
           
           <div class="countdown">
             <span class="time-left">Hesaplanıyor...</span>
