@@ -75,57 +75,59 @@ import exams from '../data/exams.json';
 <script>
   import { generateICS } from '../lib/ics';
 
-  // ICS İndirme İşlemi
-  document.querySelectorAll('.add-calendar-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const card = (e.target as HTMLElement).closest('.exam-card') as HTMLElement;
-      const name = card.dataset.name!;
-      const date = card.dataset.date!.split('T')[0];
-      
-      const icsContent = generateICS(name, date);
-      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-      
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.ics`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Bildirim göster
-      if (typeof (window as any).showToast === 'function') {
-        (window as any).showToast('Takvim cihazınıza indirildi!', 'success');
-      }
+  document.addEventListener('astro:page-load', () => {
+    // ICS Indirme
+    document.querySelectorAll('.add-calendar-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const card = e.target.closest('.exam-card');
+        const name = card.dataset.name;
+        const date = card.dataset.date.split('T')[0];
+        
+        const icsContent = generateICS(name, date);
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = name.toLowerCase().replace(/[^a-z0-9]/g, '-') + '.ics';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        if (typeof window.showToast === 'function') {
+          window.showToast('Takvim cihazınıza indirildi!', 'success');
+        }
+      });
     });
+
+    // Kalan Gun
+    function updateCountdowns() {
+      const now = new Date().getTime();
+      document.querySelectorAll('.exam-card').forEach(card => {
+        const dateStr = card.dataset.date;
+        const examTime = new Date(dateStr).getTime();
+        const distance = examTime - now;
+        const timeSpan = card.querySelector('.time-left');
+        
+        if (!timeSpan) return;
+        
+        if (distance < 0) {
+          timeSpan.textContent = 'Sınav zamanı geçti veya devam ediyor.';
+          return;
+        }
+        
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        
+        timeSpan.textContent = 'Kaldı: ' + days + ' gün, ' + hours + ' saat, ' + minutes + ' dakika';
+      });
+    }
+
+    updateCountdowns();
+    // Clear old intervals if they exist
+    if (window.countdownInterval) clearInterval(window.countdownInterval);
+    window.countdownInterval = setInterval(updateCountdowns, 60000);
   });
-
-  // Geri Sayım İşlemi
-  function updateCountdowns() {
-    const now = new Date().getTime();
-    
-    document.querySelectorAll('.exam-card').forEach(card => {
-      const dateStr = (card as HTMLElement).dataset.date!;
-      const examTime = new Date(dateStr).getTime();
-      const distance = examTime - now;
-      
-      const timeSpan = card.querySelector('.time-left') as HTMLElement;
-      
-      if (distance < 0) {
-        timeSpan.textContent = "Sınav zamanı geçti veya sınav devam ediyor.";
-        return;
-      }
-      
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      
-      timeSpan.textContent = `Kaldı: ${days} gün, ${hours} saat, ${minutes} dakika`;
-    });
-  }
-
-  // Sayfa yüklendiğinde çalıştır ve dakikada bir güncelle
-  updateCountdowns();
-  setInterval(updateCountdowns, 60000);
 </script>
 
 <style>

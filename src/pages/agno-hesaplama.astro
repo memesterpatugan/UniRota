@@ -123,9 +123,12 @@ import agnoData from '../data/agno.json';
 </Layout>
 
 <script>
-  import { calculateAGNO } from '../lib/calculate-agno';
+import { calculateAGNO } from '../lib/calculate-agno';
   import agnoData from '../data/agno.json';
   
+  
+  document.addEventListener('astro:page-load', () => {
+
   // Varsayılan katsayılar
   let currentGrades = [...agnoData.grades];
   
@@ -224,6 +227,8 @@ import agnoData from '../data/agno.json';
   
   for(let i=0; i<3; i++) createRow();
   updateResult();
+
+  });
 </script>
 
 <style is:global>
