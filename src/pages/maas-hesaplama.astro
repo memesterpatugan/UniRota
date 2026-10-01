@@ -53,6 +53,32 @@ import taxRates from '../data/tax-rates.json';
       </ul>
       <p class="small-text mt-1">Kaynak: <a href="https://www.csgb.gov.tr" target="_blank">ÇSGB</a> ve <a href="https://www.gib.gov.tr" target="_blank">GİB</a>. Sadece bilgilendirme amaçlıdır.</p>
     </div>
+
+    <!-- Sıkça Sorulan Sorular (SEO) -->
+    <div class="faq-section">
+      <h2>Maaş ve Vergi Kesintileri Hakkında S.S.S.</h2>
+      
+      <details class="faq-item">
+        <summary>Kümülatif Vergi Matrahı Nedir?</summary>
+        <div class="faq-content">
+          <p><strong>Kümülatif Vergi Matrahı</strong>, yılın başından (Ocak) bulunduğunuz aya kadar elde ettiğiniz brüt maaşınızdan SGK kesintileri düşüldükten sonra kalan tutarların aylık olarak toplanmış halidir. Gelir vergisi diliminiz (Örn: %15, %20, %27) bu toplama göre belirlendiği için maaşınız yıl sonuna doğru vergi kesintisinden dolayı düşer.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Asgari Ücret Vergi İstisnası Nasıl Uygulanır?</summary>
+        <div class="faq-content">
+          <p>Türkiye'de tüm çalışanların maaşlarının <strong>asgari ücrete kadar olan kısmı</strong> gelir ve damga vergisinden muaftır. Maaş hesaplama aracımız bu istisnayı otomatik olarak algılar ve brüt maaşınızdan o ayki asgari ücretin vergilerini düşerek net maaşınızı hesaplar.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Brütten Nete Hangi Kesintiler Yapılıyor?</summary>
+        <div class="faq-content">
+          <p>Brüt maaşınızdan sırasıyla şu kesintiler yapılır: <strong>SGK İşçi Payı</strong> (%14), <strong>İşsizlik Sigortası Payı</strong> (%1), <strong>Gelir Vergisi</strong> (Dilime göre %15-%40 arası) ve <strong>Damga Vergisi</strong> (Binde 7,59). Asgari ücret muafiyeti hesaplandıktan sonra elinize geçen tutar <strong>Net Maaş</strong>'tır.</p>
+        </div>
+      </details>
+    </div>
   </section>
   
   <script id="tax-data" type="application/json" set:html={JSON.stringify(taxRates)}></script>

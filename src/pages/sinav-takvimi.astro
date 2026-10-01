@@ -32,6 +32,32 @@ import exams from '../data/exams.json';
         </div>
       ))}
     </div>
+
+    <!-- Sıkça Sorulan Sorular (SEO) -->
+    <div class="faq-section">
+      <h2>Sınav Takvimi Sıkça Sorulan Sorular</h2>
+      
+      <details class="faq-item">
+        <summary>Sınav Tarihleri Nereden Alınıyor?</summary>
+        <div class="faq-content">
+          <p>Sitemizde yer alan ALES, YDS, KPSS ve YKS gibi sınavların tarihleri <strong>ÖSYM'nin her yıl yayımladığı resmi sınav takvimi</strong> baz alınarak eklenmiştir. Olası ani güncellemelerde takvim senkronize edilmektedir ancak kritik durumlarda ÖSYM'nin web sitesini kontrol etmenizi tavsiye ederiz.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Takvime Ekle (ICS) Özelliği Nasıl Çalışır?</summary>
+        <div class="faq-content">
+          <p><strong>Takvime Git &rarr;</strong> butonuna bastığınızda, cihazınıza küçük bir <code>.ics</code> (takvim etkinlik) dosyası iner. Bu dosyayı telefonunuzda (iOS/Android) veya bilgisayarınızda (Outlook/Google Takvim) açtığınızda, sınav günü ve saati otomatik olarak kişisel takviminize bir hatırlatıcı (alarm) olarak kaydedilir.</p>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>Geri Sayım Saati Neye Göre Hesaplanıyor?</summary>
+        <div class="faq-content">
+          <p>ÖSYM sınavları genellikle Türkiye saati ile <strong>10:15'te</strong> başlamaktadır. Ekranda gördüğünüz "...gün ...saat ...dakika" ibaresi tam olarak sınavın başlayacağı o saate göre geri sayım yapmaktadır. (Sınav binalarının saat 10:00'da kapandığını unutmayınız).</p>
+        </div>
+      </details>
+    </div>
   </section>
 </Layout>
 

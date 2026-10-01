@@ -239,6 +239,59 @@ const {
 	html:not(.dark) .sun-icon { display: none; }
 	html.dark .moon-icon { display: none; }
 
+	/* Sıkça Sorulan Sorular (FAQ) Ortak Stilleri */
+	.faq-section {
+		margin-top: 3rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--border-color);
+	}
+	.faq-section h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1.5rem;
+		color: var(--primary-color);
+	}
+	details.faq-item {
+		background: var(--container-bg);
+		border: 1px solid rgba(128, 128, 128, 0.2);
+		border-radius: 8px;
+		margin-bottom: 1rem;
+		overflow: hidden;
+		transition: background-color 0.2s ease;
+	}
+	details.faq-item > summary {
+		padding: 1rem 1.5rem;
+		font-weight: 600;
+		cursor: pointer;
+		list-style: none;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: var(--text-color);
+		user-select: none;
+	}
+	details.faq-item > summary::-webkit-details-marker {
+		display: none;
+	}
+	details.faq-item > summary::after {
+		content: '+';
+		font-size: 1.5rem;
+		font-weight: 400;
+		color: var(--primary-color);
+		transition: transform 0.3s ease;
+	}
+	details.faq-item[open] > summary::after {
+		transform: rotate(45deg);
+	}
+	details.faq-item .faq-content {
+		padding: 0 1.5rem 1.5rem 1.5rem;
+		color: #6c757d;
+		line-height: 1.6;
+		font-size: 0.95rem;
+	}
+	html.dark details.faq-item .faq-content {
+		color: #a0aab2;
+	}
+
 	footer {
 		margin-top: auto;
 		padding-top: 3rem;
