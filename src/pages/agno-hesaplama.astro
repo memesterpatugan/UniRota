@@ -1,0 +1,281 @@
+---
+import Layout from '../layouts/Layout.astro';
+import agnoData from '../data/agno.json';
+---
+
+<Layout title="AGNO Hesaplayıcı">
+  <section>
+    <h1>AGNO (Ağırlıklı Not Ortalaması) Hesaplayıcı</h1>
+    <p>Dönemlik veya genel not ortalamanızı hesaplayın. İstediğiniz kadar ders ekleyip çıkarabilirsiniz.</p>
+    
+    <div class="card settings-card">
+      <div class="settings-header">
+        <h3>Harf Katsayıları (İsteğe Bağlı)</h3>
+        <button id="toggle-settings-btn" class="text-btn">Düzenle</button>
+      </div>
+      <div id="grades-config" class="hidden">
+        <p class="small-text">Üniversitenizin kullandığı harf katsayıları farklıysa buradan geçici olarak değiştirebilirsiniz. (Örn: AA için 4.0 yerine 100 sistemi)</p>
+        <div class="config-grid">
+          {agnoData.grades.map(grade => (
+            <div class="config-item">
+              <label>{grade.letter}:</label>
+              <input type="number" data-letter={grade.letter} class="config-input" step="0.1" value={grade.weight} inputmode="decimal" />
+            </div>
+          ))}
+        </div>
+        <button id="save-settings-btn" class="primary-btn mt-1">Uygula</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="table-responsive">
+        <table id="courses-table">
+          <thead>
+            <tr>
+              <th>Ders Adı (Opsiyonel)</th>
+              <th>Kredi (AKTS)</th>
+              <th>Harf Notu</th>
+              <th>İşlem</th>
+            </tr>
+          </thead>
+          <tbody>
+             <!-- Satırlar JS ile eklenecek -->
+          </tbody>
+        </table>
+      </div>
+      <div class="actions">
+        <button id="add-row-btn" class="primary-btn">+ Yeni Ders Ekle</button>
+        <button id="clear-btn" class="danger-btn">Tümünü Temizle</button>
+      </div>
+    </div>
+
+    <div class="result-card">
+      <h2>Sonuç</h2>
+      <div class="result-grid">
+        <div class="result-item">
+          <span>Toplam Kredi:</span>
+          <strong id="total-credits">0</strong>
+        </div>
+        <div class="result-item highlight">
+          <span>Ortalama (AGNO):</span>
+          <strong id="gpa-result">-</strong>
+        </div>
+      </div>
+      <p class="small-text mt-1">Kaynak: <a href={agnoData.source_url} target="_blank">YÖK Standartları</a>. Sadece bilgilendirme amaçlıdır.</p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { calculateAGNO } from '../lib/calculate-agno';
+  import agnoData from '../data/agno.json';
+  
+  // Varsayılan katsayılar
+  let currentGrades = [...agnoData.grades];
+  
+  const tbody = document.querySelector('#courses-table tbody')!;
+  const addRowBtn = document.getElementById('add-row-btn')!;
+  const clearBtn = document.getElementById('clear-btn')!;
+  const gpaResult = document.getElementById('gpa-result')!;
+  const totalCreditsEl = document.getElementById('total-credits')!;
+  
+  // Ayarlar
+  const toggleSettingsBtn = document.getElementById('toggle-settings-btn')!;
+  const settingsDiv = document.getElementById('grades-config')!;
+  const saveSettingsBtn = document.getElementById('save-settings-btn')!;
+  
+  toggleSettingsBtn.addEventListener('click', () => {
+    settingsDiv.classList.toggle('hidden');
+  });
+  
+  saveSettingsBtn.addEventListener('click', () => {
+    // Tüm inputları oku ve currentGrades'i güncelle
+    document.querySelectorAll('.config-input').forEach(input => {
+      const letter = (input as HTMLInputElement).dataset.letter;
+      const val = parseFloat((input as HTMLInputElement).value);
+      const gradeObj = currentGrades.find(g => g.letter === letter);
+      if(gradeObj && !isNaN(val)) {
+        gradeObj.weight = val;
+      }
+    });
+    settingsDiv.classList.add('hidden');
+    refreshAllSelects();
+    updateResult();
+  });
+  
+  function getGradeOptionsHtml(selectedWeight = -1) {
+    return currentGrades.map(g => {
+      // Eğer spesifik bir ağırlık seçiliyse onu koru, yoksa default
+      const isSelected = selectedWeight === g.weight ? 'selected' : '';
+      return `<option value="${g.weight}" ${isSelected}>${g.letter} (${g.weight})</option>`;
+    }).join('');
+  }
+  
+  function refreshAllSelects() {
+    // Katsayılar değiştiğinde tablodaki dropdown'ların içini güncelle
+    document.querySelectorAll('.grade-select').forEach(select => {
+      const oldVal = parseFloat((select as HTMLSelectElement).value);
+      select.innerHTML = getGradeOptionsHtml(oldVal);
+    });
+  }
+  
+  function createRow() {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" class="course-input" placeholder="Matematik..." /></td>
+      <td><input type="number" class="credit-input" inputmode="decimal" min="0" step="0.5" value="3" /></td>
+      <td><select class="grade-select">${getGradeOptionsHtml()}</select></td>
+      <td><button class="remove-btn danger-btn">Sil</button></td>
+    `;
+    
+    tr.querySelector('.remove-btn')!.addEventListener('click', () => {
+      tr.remove();
+      updateResult();
+    });
+    
+    tr.querySelectorAll('input, select').forEach(el => {
+      el.addEventListener('input', updateResult);
+    });
+    
+    tbody.appendChild(tr);
+  }
+  
+  function updateResult() {
+    const rows = tbody.querySelectorAll('tr');
+    const courses = Array.from(rows).map(row => {
+      const credit = parseFloat((row.querySelector('.credit-input') as HTMLInputElement).value);
+      const weight = parseFloat((row.querySelector('.grade-select') as HTMLSelectElement).value);
+      return { credit, weight };
+    });
+    
+    const result = calculateAGNO(courses);
+    totalCreditsEl.textContent = result.totalCredits.toString();
+    gpaResult.textContent = result.gpa !== null ? result.gpa.toFixed(2) : '-';
+  }
+  
+  addRowBtn.addEventListener('click', () => {
+    createRow();
+    updateResult();
+  });
+  
+  clearBtn.addEventListener('click', () => {
+    tbody.innerHTML = '';
+    for(let i=0; i<3; i++) createRow(); // 3 boş satır aç
+    updateResult();
+  });
+  
+  // Başlangıçta 3 satır oluştur
+  for(let i=0; i<3; i++) createRow();
+  updateResult();
+</script>
+
+<style>
+  .card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: var(--container-bg);
+    margin-top: 1.5rem;
+  }
+  .settings-card {
+    background: var(--bg-color);
+  }
+  .settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .hidden {
+    display: none;
+  }
+  .config-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .config-item {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+  }
+  .config-input {
+    padding: 0.25rem;
+    margin-top: 0.25rem;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+  }
+  th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+  input, select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background: var(--container-bg);
+    color: var(--text-color);
+  }
+  .actions {
+    display: flex;
+    gap: 1rem;
+  }
+  .primary-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .danger-btn {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .text-btn {
+    background: transparent;
+    color: var(--primary-color);
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .primary-btn:hover, .danger-btn:hover {
+    opacity: 0.9;
+  }
+  .result-card {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--container-bg);
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .result-grid {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+  }
+  .result-item {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+  }
+  .result-item.highlight strong {
+    color: var(--primary-color);
+    font-size: 2rem;
+  }
+  .mt-1 { margin-top: 1rem; }
+  .small-text { font-size: 0.85rem; opacity: 0.8; }
+</style>
