@@ -54,6 +54,11 @@ import exams from '../data/exams.json';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      // Bildirim göster
+      if (typeof (window as any).showToast === 'function') {
+        (window as any).showToast('Takvim cihazınıza indirildi!', 'success');
+      }
     });
   });
 
