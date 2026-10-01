@@ -273,6 +273,44 @@ const {
 		background: rgba(0, 0, 0, 0.2);
 	}
 
+	/* Terimler Sözlüğü (Glossary) Ortak Stilleri */
+	.glossary-section {
+		margin-top: 2rem;
+		padding: 2rem;
+		background: var(--container-bg);
+		border-radius: 12px;
+		border: 1px solid rgba(128, 128, 128, 0.1);
+	}
+	.glossary-section h2 {
+		font-size: 1.5rem;
+		margin-bottom: 1rem;
+		color: var(--primary-color);
+	}
+	.glossary-list dt {
+		font-weight: 700;
+		color: var(--text-color);
+		margin-top: 1.5rem;
+		font-size: 1.05rem;
+	}
+	.glossary-list dt:first-child {
+		margin-top: 0;
+	}
+	.glossary-list dd {
+		margin-left: 0;
+		margin-top: 0.25rem;
+		color: #6c757d;
+		line-height: 1.6;
+		font-size: 0.95rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px dashed rgba(128,128,128,0.2);
+	}
+	.glossary-list dd:last-child {
+		border-bottom: none;
+	}
+	html.dark .glossary-list dd {
+		color: #a0aab2;
+	}
+
 	/* Sıkça Sorulan Sorular (FAQ) Ortak Stilleri */
 	.faq-section {
 		margin-top: 3rem;
