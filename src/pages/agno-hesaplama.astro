@@ -106,7 +106,7 @@ import agnoData from '../data/agno.json';
   function getGradeOptionsHtml(selectedWeight = -1) {
     return currentGrades.map(g => {
       const isSelected = selectedWeight === g.weight ? 'selected' : '';
-      return \`<option value="\${g.weight}" \${isSelected}>\${g.letter} (\${g.weight})</option>\`;
+      return `<option value="${g.weight}" ${isSelected}>${g.letter} (${g.weight})</option>`;
     }).join('');
   }
   
@@ -119,12 +119,12 @@ import agnoData from '../data/agno.json';
   
   function createRow() {
     const tr = document.createElement('tr');
-    tr.innerHTML = \`
+    tr.innerHTML = `
       <td class="hide-mobile"><input type="text" class="course-input" placeholder="Ders..." /></td>
       <td><input type="number" class="credit-input" inputmode="decimal" min="0" step="0.5" value="3" /></td>
-      <td><select class="grade-select">\${getGradeOptionsHtml()}</select></td>
+      <td><select class="grade-select">${getGradeOptionsHtml()}</select></td>
       <td><button class="remove-btn danger-btn">Sil</button></td>
-    \`;
+    `;
     
     tr.querySelector('.remove-btn')!.addEventListener('click', () => {
       tr.remove();

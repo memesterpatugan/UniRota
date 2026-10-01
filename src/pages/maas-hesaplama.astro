@@ -94,17 +94,17 @@ import taxRates from '../data/tax-rates.json';
         
         tbody.innerHTML = results.map(r => {
           const sgkTotal = r.sgkDeduction + r.unemploymentDeduction;
-          return \`
+          return `
             <tr>
-              <td><strong>\${monthsTR[r.month - 1]}</strong></td>
-              <td>\${formatter.format(r.gross)} ₺</td>
-              <td style="color: #6c757d;">\${formatter.format(r.cumulativeIncomeTaxBase)} ₺</td>
-              <td class="deduction">-\${formatter.format(sgkTotal)} ₺</td>
-              <td class="deduction">-\${formatter.format(r.payableIncomeTax)} ₺</td>
-              <td class="deduction">-\${formatter.format(r.payableStampTax)} ₺</td>
-              <td class="net-salary"><strong>\${formatter.format(r.netSalary)} ₺</strong></td>
+              <td><strong>${monthsTR[r.month - 1]}</strong></td>
+              <td>${formatter.format(r.gross)} ₺</td>
+              <td style="color: #6c757d;">${formatter.format(r.cumulativeIncomeTaxBase)} ₺</td>
+              <td class="deduction">-${formatter.format(sgkTotal)} ₺</td>
+              <td class="deduction">-${formatter.format(r.payableIncomeTax)} ₺</td>
+              <td class="deduction">-${formatter.format(r.payableStampTax)} ₺</td>
+              <td class="net-salary"><strong>${formatter.format(r.netSalary)} ₺</strong></td>
             </tr>
-          \`;
+          `;
         }).join('');
       }
 
