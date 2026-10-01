@@ -1,7 +1,7 @@
 Proje Notlar
 
 ## DURUM
-Adım 4 (AGNO Hesaplayıcı Mantık) tamamlandı. Adım 5 (AGNO UI Entegrasyonu) aşamasına geçilecek.
+Adım 5 (AGNO UI Entegrasyonu) tamamlandı. Adım 6 (Maaş Hesaplayıcı Mantık) aşamasına geçilecek.
 
 ## ADIM PLANLAMASI
 - Adım 1: Proje kurulumu (Astro, TypeScript, Vitest) ve temel layout iskeletinin, CSS değişkenlerinin oluşturulması.
