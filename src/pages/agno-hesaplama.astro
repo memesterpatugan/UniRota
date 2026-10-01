@@ -104,6 +104,10 @@ import agnoData from '../data/agno.json';
     settingsDiv.classList.add('hidden');
     refreshAllSelects();
     updateResult();
+    
+    if (typeof window.showToast === 'function') {
+      window.showToast('Harf katsayıları güncellendi!', 'success');
+    }
   });
   
   function getGradeOptionsHtml(selectedWeight = -1) {
