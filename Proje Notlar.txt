@@ -1,7 +1,7 @@
 Proje Notlar
 
 ## DURUM
-Adım 1 (Proje Kurulumu) tamamlandı. Adım 2 (Veri Modelleri) aşamasına geçilecek.
+Adım 2 (Veri Modelleri) tamamlandı. Adım 3 (Sınav Takvimi) aşamasına geçilecek.
 
 ## ADIM PLANLAMASI
 - Adım 1: Proje kurulumu (Astro, TypeScript, Vitest) ve temel layout iskeletinin, CSS değişkenlerinin oluşturulması.

@@ -1,0 +1,18 @@
+{
+  "year": 2026,
+  "gross_minimum_wage": 33030.00,
+  "net_minimum_wage": 28075.50,
+  "sgk_worker_rate": 0.14,
+  "unemployment_worker_rate": 0.01,
+  "stamp_tax_rate": 0.00759,
+  "sgk_ceiling": 297270.00,
+  "brackets": [
+    { "limit": 190000, "rate": 0.15 },
+    { "limit": 400000, "rate": 0.20 },
+    { "limit": 1500000, "rate": 0.27 },
+    { "limit": 5300000, "rate": 0.35 },
+    { "limit": null, "rate": 0.40 }
+  ],
+  "source_url": "https://www.gib.gov.tr, https://www.csgb.gov.tr",
+  "verified_at": "2026-10-01"
+}

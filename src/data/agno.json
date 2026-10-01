@@ -1,0 +1,16 @@
+{
+  "default_scale": "4.0",
+  "source_url": "https://www.yok.gov.tr",
+  "verified_at": "2026-10-01",
+  "grades": [
+    { "letter": "AA", "weight": 4.0 },
+    { "letter": "BA", "weight": 3.5 },
+    { "letter": "BB", "weight": 3.0 },
+    { "letter": "CB", "weight": 2.5 },
+    { "letter": "CC", "weight": 2.0 },
+    { "letter": "DC", "weight": 1.5 },
+    { "letter": "DD", "weight": 1.0 },
+    { "letter": "FD", "weight": 0.5 },
+    { "letter": "FF", "weight": 0.0 }
+  ]
+}

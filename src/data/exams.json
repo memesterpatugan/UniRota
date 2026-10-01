@@ -1,0 +1,38 @@
+[
+  {
+    "id": "kpss-on-lisans",
+    "name": "KPSS Ön Lisans",
+    "exam_date": "2026-10-04",
+    "application_start": "2026-07-29",
+    "application_end": "2026-08-10",
+    "source_url": "https://www.osym.gov.tr",
+    "verified_at": "2026-10-01"
+  },
+  {
+    "id": "yds-2",
+    "name": "YDS/2",
+    "exam_date": "2026-11-22",
+    "application_start": "2026-09-30",
+    "application_end": "2026-10-08",
+    "source_url": "https://www.osym.gov.tr",
+    "verified_at": "2026-10-01"
+  },
+  {
+    "id": "ales-3",
+    "name": "ALES/3",
+    "exam_date": "2026-11-29",
+    "application_start": "2026-10-07",
+    "application_end": "2026-10-15",
+    "source_url": "https://www.osym.gov.tr",
+    "verified_at": "2026-10-01"
+  },
+  {
+    "id": "ales-2",
+    "name": "ALES/2",
+    "exam_date": "2026-08-02",
+    "application_start": "2026-06-10",
+    "application_end": "2026-06-18",
+    "source_url": "https://www.osym.gov.tr",
+    "verified_at": "2026-10-01"
+  }
+]
