@@ -161,13 +161,13 @@ import taxRates from '../data/tax-rates.json';
   .flex-row {
     display: flex;
     gap: 0.5rem;
-    flex-wrap: wrap; /* Mobilde taşmayı önler */
+    flex-wrap: wrap;
   }
   input[type="text"] {
     flex: 1;
     min-width: 150px;
     padding: 0.75rem;
-    border: 1px solid var(--border-color);
+    border: 1px solid rgba(128, 128, 128, 0.3);
     border-radius: 4px;
     font-size: 1.1rem;
     font-weight: bold;
@@ -175,8 +175,8 @@ import taxRates from '../data/tax-rates.json';
     background: var(--container-bg);
   }
   .secondary-btn {
-    background: var(--border-color);
-    color: var(--text-color);
+    background: var(--text-color);
+    color: var(--bg-color);
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
@@ -185,22 +185,37 @@ import taxRates from '../data/tax-rates.json';
     flex: 0 0 auto;
   }
   .secondary-btn:hover { opacity: 0.8; }
-  .table-responsive { overflow-x: auto; }
+  .table-responsive { overflow-x: auto; margin-top: 1rem; border-radius: 8px; border: 1px solid rgba(128, 128, 128, 0.2); }
   table { width: 100%; border-collapse: collapse; }
+  
+  /* Tablo Hizalama ve Çizgiler */
   th, td {
-    padding: 0.75rem;
-    text-align: right;
-    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0.75rem;
+    text-align: right; /* Sayıların hepsi sağa dayalı (düzenli görünüm için) */
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2); /* İnce, zarif çizgi */
     white-space: nowrap;
   }
-  th:first-child, td:first-child { text-align: left; }
-  th { background: var(--bg-color); color: var(--text-color); font-size: 0.9rem; }
+  th:first-child, td:first-child { 
+    text-align: left; 
+    font-weight: bold;
+  }
+  th { 
+    background: rgba(128, 128, 128, 0.1); 
+    color: var(--text-color); 
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  
+  /* Son satırda çizgiyi kaldır */
+  tr:last-child td { border-bottom: none; }
+
   .deduction { color: #dc3545; }
   .net-salary { color: #28a745; font-size: 1.1rem; }
   
   @media (prefers-color-scheme: dark) {
     .deduction { color: #ff6b6b; }
     .net-salary { color: #51cf66; }
+    .secondary-btn { background: #444; color: #fff; }
   }
   .mt-1 { margin-top: 1rem; }
   .small-text { font-size: 0.85rem; opacity: 0.8; }
