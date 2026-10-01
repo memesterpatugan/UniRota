@@ -1,19 +1,36 @@
 ---
 interface Props {
 	title: string;
+	description?: string;
 }
 
-const { title } = Astro.props;
+const { 
+	title,
+	description = "Türkiye'deki üniversite öğrencileri ve yeni mezunlar için tamamen ücretsiz ve hızlı hesaplama araçları."
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="tr">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description" />
+		<meta name="description" content={description} />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Open Graph / WhatsApp / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+
 		<title>{title}</title>
 		<script is:inline>
 			const theme = (() => {
