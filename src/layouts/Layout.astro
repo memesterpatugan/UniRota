@@ -67,6 +67,9 @@ const {
 			</header>
 			<slot />
 			<footer>
+				<div class="footer-links">
+					<a href="/gizlilik-ve-kosullar">Gizlilik ve Kullanım Koşulları</a>
+				</div>
 				<p>Bilgilendirme amaçlıdır. Resmi kaynak niteliği taşımaz.</p>
 			</footer>
 		</main>
@@ -172,9 +175,25 @@ const {
 
 	footer {
 		margin-top: auto;
-		padding-top: 2rem;
+		padding-top: 3rem;
 		font-size: 0.875rem;
 		text-align: center;
 		opacity: 0.8;
+	}
+
+	.footer-links {
+		margin-bottom: 0.5rem;
+	}
+
+	.footer-links a {
+		color: var(--text-color);
+		text-decoration: underline;
+		opacity: 0.8;
+		transition: opacity 0.2s;
+	}
+
+	.footer-links a:hover {
+		opacity: 1;
+		color: var(--primary-color);
 	}
 </style>

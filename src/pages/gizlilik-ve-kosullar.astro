@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout 
+  title="Gizlilik ve Kullanım Koşulları" 
+  description="Sitemizin gizlilik politikası ve yasal kullanım koşulları hakkında bilgilendirme."
+>
+  <section class="legal-section">
+    <h1>Gizlilik ve Kullanım Koşulları</h1>
+    
+    <div class="card">
+      <h2>1. Gizlilik Politikası (Veri Güvenliği)</h2>
+      <p>Bu platform tamamen <strong>istemci tarafında (tarayıcınızda)</strong> çalışacak şekilde tasarlanmıştır. Bu kapsamda:</p>
+      <ul>
+        <li>Girdiğiniz hiçbir veri (maaş bilginiz, ders notlarınız vb.) herhangi bir uzak sunucuya veya veri tabanına <strong>gönderilmez</strong> ve <strong>kaydedilmez</strong>.</li>
+        <li>Bütün hesaplamalar anlık olarak sizin kendi cihazınızda yapılır. Sayfayı kapattığınızda veya yenilediğinizde girdiğiniz bilgiler kalıcı olarak silinir.</li>
+        <li>Sitemizde yalnızca "Aydınlık/Karanlık Tema" tercihini hatırlamak amacıyla tarayıcınızın yerel depolama alanı (localStorage) kullanılır.</li>
+        <li>Herhangi bir takip (tracking) veya reklam çerezi (cookie) kullanılmamaktadır.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>2. Kullanım Koşulları ve Yasal Uyarı</h2>
+      <p>Sitemizde yer alan tüm araçlar <strong>sadece bilgilendirme amaçlıdır</strong>.</p>
+      <ul>
+        <li><strong>Sınav Takvimi:</strong> Tarihler ÖSYM ve ilgili kurumların yayımladığı açık kaynaklardan derlenmiştir. Olası tarih veya saat değişikliklerinden sitemiz sorumlu tutulamaz. Kesin ve resmi bilgileri daima <a href="https://www.osym.gov.tr" target="_blank">ÖSYM'nin resmi web sitesinden</a> teyit ediniz.</li>
+        <li><strong>AGNO Hesaplayıcı:</strong> Üniversitelerin kullandığı yuvarlama ve kredi ağırlık standartları farklılık gösterebilir. Çıkan sonuç resmi transkriptiniz ile birebir aynı olmayabilir.</li>
+        <li><strong>Maaş Hesaplayıcı:</strong> Vergi dilimleri, SGK oranları ve istisnalar resmi gazetede yayımlanan oranlara göre hesaplanır ancak muhasebe ve bordrolama süreçlerinde firmaya, sektöre ve özel istisnalara (Ar-Ge, engellilik indirimi vb.) göre değişiklikler olabilir. Bu hesaplama hiçbir hukuki uyuşmazlıkta veya bordro itirazında <strong>resmi kanıt olarak kullanılamaz</strong>.</li>
+      </ul>
+      <p class="mt-1">Bu siteyi kullanarak yukarıdaki şartları ve hesaplamalardan doğabilecek hiçbir dolaylı veya doğrudan maddi/manevi zarardan sitemizin sorumlu tutulamayacağını kabul etmiş sayılırsınız.</p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .legal-section {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .card {
+    background: var(--container-bg);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  h2 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  }
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+  }
+  ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  a {
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+  .mt-1 {
+    margin-top: 1rem;
+  }
+</style>
