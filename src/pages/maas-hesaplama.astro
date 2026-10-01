@@ -185,29 +185,56 @@ import taxRates from '../data/tax-rates.json';
     flex: 0 0 auto;
   }
   .secondary-btn:hover { opacity: 0.8; }
-  .table-responsive { overflow-x: auto; margin-top: 1rem; border-radius: 8px; border: 1px solid rgba(128, 128, 128, 0.2); }
+  .table-responsive { 
+    overflow-x: auto; 
+    overflow-y: auto;
+    max-height: 65vh; /* Ekrana sığması için maksimum yükseklik */
+    margin-top: 1rem; 
+    border-radius: 8px; 
+    border: 1px solid rgba(128, 128, 128, 0.2); 
+  }
   table { width: 100%; border-collapse: collapse; }
   
   /* Tablo Hizalama ve Çizgiler */
   th, td {
     padding: 1rem 0.75rem;
-    text-align: right; /* Sayıların hepsi sağa dayalı (düzenli görünüm için) */
+    text-align: right;
     border-bottom: 1px solid rgba(128, 128, 128, 0.2);
-    border-right: 1px solid rgba(128, 128, 128, 0.2); /* Dikey sütun çizgileri */
+    border-right: 1px solid rgba(128, 128, 128, 0.2);
     white-space: nowrap;
+    background: var(--container-bg); /* Sticky hücrelerin arkasının saydam olmaması için */
   }
   th:last-child, td:last-child {
-    border-right: none; /* En sağdaki sütunda çizgi olmasın */
+    border-right: none;
   }
+  
+  /* İlk sütunu (Aylar) yatay kaydırmada sabit tut */
   th:first-child, td:first-child { 
     text-align: left; 
     font-weight: bold;
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--container-bg); /* Sabit sütunun arkası görünmesin */
+    border-right: 2px solid rgba(128, 128, 128, 0.3); /* Sabit sütunu ayırmak için belirgin çizgi */
   }
+  
+  /* Başlıkları (En üst satırı) dikey kaydırmada sabit tut */
   th { 
-    background: rgba(128, 128, 128, 0.1); 
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #f8f9fa; /* Açık tema için hafif gri */
     color: var(--text-color); 
     font-size: 0.95rem;
     font-weight: 600;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.3);
+  }
+  
+  /* Kesişim noktası (Sol üst köşe) hem sağa hem aşağı kaydırmada en üstte kalmalı */
+  th:first-child {
+    z-index: 3;
+    background: #f8f9fa;
   }
   
   /* Son satırda çizgiyi kaldır */
@@ -217,6 +244,8 @@ import taxRates from '../data/tax-rates.json';
   .net-salary { color: #28a745; font-size: 1.1rem; }
   
   @media (prefers-color-scheme: dark) {
+    th { background: #2c2c2c; } /* Karanlık tema için başlık arka planı */
+    th:first-child { background: #2c2c2c; }
     .deduction { color: #ff6b6b; }
     .net-salary { color: #51cf66; }
     .secondary-btn { background: #444; color: #fff; }
