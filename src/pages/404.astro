@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Sayfa Bulunamadı - 404" description="Aradığınız sayfa bulunamadı.">
+  <div class="not-found-container">
+    <h1>404</h1>
+    <h2>Görünüşe Göre Yolumuzu Kaybettik!</h2>
+    <p>Aradığın sayfa silinmiş, adı değiştirilmiş veya geçici olarak ulaşılamıyor olabilir.</p>
+    <a href="/" class="home-btn">Ana Sayfaya Dön</a>
+  </div>
+</Layout>
+
+<style>
+  .not-found-container {
+    text-align: center;
+    padding: 4rem 1rem;
+    margin-top: 2rem;
+    background: var(--container-bg);
+    border-radius: 12px;
+    border: 1px solid rgba(128, 128, 128, 0.1);
+  }
+  
+  .not-found-container h1 {
+    font-size: 6rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+  
+  .not-found-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+  }
+  
+  .not-found-container p {
+    color: #6c757d;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .home-btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.8rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  
+  .home-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+</style>
