@@ -104,11 +104,9 @@ import Layout from '../layouts/Layout.astro';
     gap: 0.75rem; /* Oku hafif sağa kaydırır */
   }
   
-  @media (prefers-color-scheme: dark) {
-    .hero .subtitle { color: #a0aab2; }
-    .tool-card p { color: #a0aab2; }
-    .tool-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
-  }
+  html.dark .hero .subtitle { color: #a0aab2; }
+  html.dark .tool-card p { color: #a0aab2; }
+  html.dark .tool-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
   
   @media (max-width: 600px) {
     .hero h1 { font-size: 2rem; }

@@ -243,13 +243,11 @@ import taxRates from '../data/tax-rates.json';
   .deduction { color: #dc3545; }
   .net-salary { color: #28a745; font-size: 1.1rem; }
   
-  @media (prefers-color-scheme: dark) {
-    th { background: #2c2c2c; } /* Karanlık tema için başlık arka planı */
-    th:first-child { background: #2c2c2c; }
-    .deduction { color: #ff6b6b; }
-    .net-salary { color: #51cf66; }
-    .secondary-btn { background: #444; color: #fff; }
-  }
+  html.dark th { background: #2c2c2c; } /* Karanlık tema için başlık arka planı */
+  html.dark th:first-child { background: #2c2c2c; }
+  html.dark .deduction { color: #ff6b6b; }
+  html.dark .net-salary { color: #51cf66; }
+  html.dark .secondary-btn { background: #444; color: #fff; }
   .mt-1 { margin-top: 1rem; }
   .small-text { font-size: 0.85rem; opacity: 0.8; }
 </style>
