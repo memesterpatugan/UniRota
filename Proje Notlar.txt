@@ -1,0 +1,31 @@
+Proje Notlar
+
+## DURUM
+Adım 1 (Proje Kurulumu) tamamlandı. Adım 2 (Veri Modelleri) aşamasına geçilecek.
+
+## ADIM PLANLAMASI
+- Adım 1: Proje kurulumu (Astro, TypeScript, Vitest) ve temel layout iskeletinin, CSS değişkenlerinin oluşturulması.
+- Adım 2: Veri katmanı (`src/data/*.json`) oluşturulması (sınav tarihleri, maaş verileri, AGNO kuralları).
+- Adım 3: Sınav Takvimi aracının geliştirilmesi (Zaman hesabı fonksiyonları ve UI).
+- Adım 4: AGNO Hesaplayıcı (Önce `src/lib/` hesaplama fonksiyonları + Birim Testler).
+- Adım 5: AGNO Hesaplayıcı UI entegrasyonu (Saf JS ile dinamik tablo etkileşimleri).
+- Adım 6: Maaş Hesaplayıcı (Önce `src/lib/` kümülatif vergi + istisna mantığı + Birim Testler).
+- Adım 7: Maaş Hesaplayıcı UI entegrasyonu ve aylık tablo dökümü.
+
+## DOĞRULAMA DURUMU
+- 2026 Brüt Asgari Ücret: 33.030 TL (DOĞRULANDI - ÇSGB)
+- 2026 Net Asgari Ücret: 28.075,50 TL (DOĞRULANDI - ÇSGB)
+- SGK İşçi Payı %14, İşsizlik %1, Damga Vergisi binde 7,59 (DOĞRULANDI - Standart)
+- SGK Prim Tavanı: 297.270 TL / Asgari ücretin 9 katı (DOĞRULANDI - Yeni yasa ile 7.5'tan 9'a çıkarıldı)
+- Ücret Geliri Vergi Dilimleri (2026): 
+  - 0-190.000 TL: %15
+  - 190.000-400.000 TL: %20
+  - 400.000-1.500.000 TL: %27
+  - 1.500.000-5.300.000 TL: %35
+  - 5.300.000 TL ve üzeri: %40 (DOĞRULANDI - GİB)
+- Yıl ortası asgari ücret değişikliği: Yok (DOĞRULANDI)
+- Sınav Tarihleri:
+  - KPSS Ön Lisans: 4 Ekim 2026 (DOĞRULANDI - ÖSYM)
+  - YDS/2: 22 Kasım 2026, başvuru 30 Eylül-8 Ekim (DOĞRULANDI - ÖSYM)
+  - ALES/3: 29 Kasım 2026, başvuru 7-15 Ekim (DOĞRULANDI - ÖSYM)
+  - ALES/2: 2 Ağustos 2026, başvuru 10-18 Haziran (DOĞRULANDI - ÖSYM takvimine göre 2 Ağustos)
