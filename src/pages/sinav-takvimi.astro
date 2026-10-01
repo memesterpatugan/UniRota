@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+import exams from '../data/exams.json';
+---
+
+<Layout title="Sınav Takvimi ve Geri Sayım">
+  <section>
+    <h1>Sınav Takvimi (2026)</h1>
+    <p>Aşağıdaki tarihler ÖSYM tarafından yayımlanmış güncel sınav tarihleridir. Geri sayımlar sınavın yapılacağı gün Türkiye saatiyle 10:15'e göre hesaplanmaktadır.</p>
+    
+    <div class="exams-container">
+      {exams.map(exam => (
+        <div class="exam-card" data-date={`${exam.exam_date}T10:15:00+03:00`} data-name={exam.name}>
+          <h2>{exam.name}</h2>
+          <p><strong>Sınav Tarihi:</strong> {new Date(exam.exam_date).toLocaleDateString('tr-TR')}</p>
+          <p><strong>Başvuru Dönemi:</strong> {new Date(exam.application_start).toLocaleDateString('tr-TR')} - {new Date(exam.application_end).toLocaleDateString('tr-TR')}</p>
+          
+          <div class="countdown">
+            <span class="time-left">Hesaplanıyor...</span>
+          </div>
+          
+          <button class="add-calendar-btn">Takvime Ekle (.ics)</button>
+          
+          <div class="source">
+            <small>Kaynak: <a href={exam.source_url} target="_blank">ÖSYM</a> (Doğrulama: {exam.verified_at})</small>
+            <br/>
+            <small><em>Bilgilendirme amaçlıdır. Resmi değişiklikler için ÖSYM'yi takip ediniz.</em></small>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { generateICS } from '../lib/ics';
+
+  // ICS İndirme İşlemi
+  document.querySelectorAll('.add-calendar-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const card = (e.target as HTMLElement).closest('.exam-card') as HTMLElement;
+      const name = card.dataset.name!;
+      const date = card.dataset.date!.split('T')[0];
+      
+      const icsContent = generateICS(name, date);
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `${name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.ics`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  });
+
+  // Geri Sayım İşlemi
+  function updateCountdowns() {
+    const now = new Date().getTime();
+    
+    document.querySelectorAll('.exam-card').forEach(card => {
+      const dateStr = (card as HTMLElement).dataset.date!;
+      const examTime = new Date(dateStr).getTime();
+      const distance = examTime - now;
+      
+      const timeSpan = card.querySelector('.time-left') as HTMLElement;
+      
+      if (distance < 0) {
+        timeSpan.textContent = "Sınav zamanı geçti veya sınav devam ediyor.";
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      
+      timeSpan.textContent = `Kaldı: ${days} gün, ${hours} saat, ${minutes} dakika`;
+    });
+  }
+
+  // Sayfa yüklendiğinde çalıştır ve dakikada bir güncelle
+  updateCountdowns();
+  setInterval(updateCountdowns, 60000);
+</script>
+
+<style>
+  .exams-container {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .exam-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: var(--container-bg);
+    transition: transform 0.2s ease;
+  }
+  .exam-card:hover {
+    transform: translateY(-2px);
+  }
+  .exam-card h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    font-size: 1.5rem;
+  }
+  .exam-card p {
+    margin-bottom: 0.5rem;
+  }
+  .countdown {
+    margin: 1.25rem 0;
+    padding: 1rem;
+    background: var(--bg-color);
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+    border-left: 4px solid var(--primary-color);
+  }
+  .add-calendar-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  .add-calendar-btn:hover {
+    opacity: 0.9;
+  }
+  .source {
+    margin-top: 1rem;
+    opacity: 0.7;
+    line-height: 1.4;
+  }
+  
+  @media (min-width: 600px) {
+    .add-calendar-btn {
+      width: auto;
+    }
+  }
+</style>
