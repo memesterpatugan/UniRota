@@ -3,13 +3,116 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Öğrenci ve Mezun Araçları">
-	<section>
-		<h1>Araçlar</h1>
-		<p>Türkiye'deki üniversite öğrencileri ve yeni mezunlar için ücretsiz, statik, reklamsız hesaplama ve takip araçları.</p>
-		<ul>
-			<li><a href="/sinav-takvimi">Sınav Takvimi ve Geri Sayım</a></li>
-			<li><a href="/agno-hesaplama">AGNO Hesaplayıcı</a></li>
-			<li><a href="/maas-hesaplama">Brüt-Net Maaş Hesaplayıcı</a></li>
-		</ul>
-	</section>
+  <div class="hero">
+    <h1>Eğitim ve Kariyer <span class="highlight">Yolculuğun</span></h1>
+    <p class="subtitle">Türkiye'deki üniversite öğrencileri ve yeni mezunlar için tamamen ücretsiz, reklamsız ve hızlı hesaplama araçları.</p>
+  </div>
+
+  <div class="tools-grid">
+    <a href="/sinav-takvimi" class="tool-card">
+      <div class="icon">📅</div>
+      <h2>Sınav Takvimi</h2>
+      <p>ÖSYM, ALES, YDS gibi önemli sınavların tarihlerini takip et, telefonunun takvimine anında kaydet.</p>
+      <span class="action-link">Takvime Git &rarr;</span>
+    </a>
+    
+    <a href="/agno-hesaplama" class="tool-card">
+      <div class="icon">🎓</div>
+      <h2>AGNO Hesaplayıcı</h2>
+      <p>Dönemlik veya genel akademik not ortalamanızı (AGNO/GNO) üniversite standartlarına göre hesaplayın.</p>
+      <span class="action-link">Ortalama Hesapla &rarr;</span>
+    </a>
+    
+    <a href="/maas-hesaplama" class="tool-card">
+      <div class="icon">💰</div>
+      <h2>Maaş Hesaplayıcı</h2>
+      <p>Güncel asgari ücret, SGK ve vergi dilimlerine göre brütten nete tüm kesintileriyle maaşını hesapla.</p>
+      <span class="action-link">Maaş Hesapla &rarr;</span>
+    </a>
+  </div>
 </Layout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 2rem 0 3rem 0;
+  }
+  .hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .hero .highlight {
+    color: var(--primary-color);
+  }
+  .hero .subtitle {
+    font-size: 1.15rem;
+    color: #6c757d;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1.5rem;
+  }
+  .tool-card {
+    background: var(--container-bg);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .tool-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    border-color: var(--primary-color);
+  }
+  .icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  .tool-card h2 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    margin-top: 0;
+  }
+  .tool-card p {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+  }
+  .action-link {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: gap 0.2s ease;
+  }
+  .tool-card:hover .action-link {
+    gap: 0.75rem; /* Oku hafif sağa kaydırır */
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .hero .subtitle { color: #a0aab2; }
+    .tool-card p { color: #a0aab2; }
+    .tool-card:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.4); }
+  }
+  
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2rem; }
+    .hero .subtitle { font-size: 1rem; }
+    .tool-card { padding: 1.5rem; }
+  }
+</style>
