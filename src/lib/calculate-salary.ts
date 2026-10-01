@@ -54,6 +54,9 @@ function calculateTotalTax(cumulativeBase: number, brackets: TaxBracket[]): numb
 export function calculateYearlySalary(grossSalary: number, params: SalaryParams): MonthlyResult[] {
   const results: MonthlyResult[] = [];
   
+  // Güvenlik: Negatif maaş girişlerini sıfır kabul et
+  grossSalary = Math.max(0, grossSalary);
+
   let cumulativeBase = 0;
   let minWageCumulativeBase = 0;
   

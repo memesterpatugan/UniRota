@@ -1,0 +1,129 @@
+==================================================
+NOTLAR.TXT - PROJE HAFIZASI
+Bu dosyayı her oturumun başında oku. Her adım sonunda
+"DURUM" ve "KARAR GÜNLÜĞÜ" bölümlerini güncelle.
+Başlangıç tarihi: 01.10.2026
+==================================================
+
+1) PROJE NEDİR
+- Türkiye'deki üniversite öğrencileri ve yeni mezunlar için
+  ücretsiz, statik bir araç/hesaplama sitesi.
+- Amaç: (1) deneyim kazanmak, (2) zamanla az da olsa gelir.
+- Site adı: [BELİRLENECEK]   Alan adı: [YOK / ...]
+- Dil: Türkçe. Kod, değişken ve dosya adları İngilizce.
+- Sahibi: üniversite öğrencisi, bütçe 0 TL.
+
+2) KISITLAR (DEĞİŞMEZ)
+- Backend, veritabanı, ücretli servis, ücretli API YOK.
+- Hosting: Cloudflare Pages (statik). Repo: [GitHub URL]
+- Teknoloji: Astro (statik) + TypeScript (strict) + Vitest.
+  UI framework yok, küçük vanilla TS. Yeni bağımlılık eklemeden önce gerekçe yaz.
+- Reklam, çerez bandı, analitik: SONRA eklenecek (bkz. Bölüm 8).
+
+3) MVP ARAÇLARI (öncelik sırası)
+ 1. Sınav takvimi + geri sayım (ALES, YDS, KPSS), .ics indirme
+ 2. AGNO / not ortalaması hesaplayıcı
+ 3. Brüt-net maaş 2026 (yeni mezun, part-time, stajyer odaklı)
+ Aşama 2: KYK araçları (ödeme takvimi, borç tahmini)
+- Neden bu araçlar: sınav ve KYK dönemleri mevsimsel talep yaratıyor,
+  AGNO her yıl aranan evergreen konu, net maaşta ana kelime çok rekabetli
+  olduğu için sadece uzun kuyruklu aramalarla gireceğiz.
+
+4) DEĞİŞMEZ KURALLAR
+- Hesap mantığı UI'dan ayrı, saf fonksiyon (src/lib/).
+- Yıla/kurala bağlı tüm sayılar src/data/*.json içinde; her kayıtta
+  source_url ve verified_at alanı olacak.
+- Doğrulanamayan değeri UYDURMA. "DOĞRULANMADI" yaz ve kullanıcıyı uyar.
+- Doğrulama sadece resmi kaynaklardan: osym.gov.tr, gib.gov.tr,
+  csgb.gov.tr, sgk.gov.tr, yok.gov.tr, mevzuat.gov.tr, resmigazete.gov.tr,
+  ilgili üniversitenin yönetmeliği. Haber/blog siteleri yalnızca ipucu;
+  çelişki görürsen raporla.
+- Her hesaplayıcıya en az 8 birim testi (sınır değer, 0, boş, çok büyük).
+- Türkçe sayı biçimi (1.234,56) giriş ve çıkışta; inputmode="decimal".
+- Her sayfada: kısa açıklama, formül nasıl çalışıyor, hangi yıl/kurala göre,
+  son doğrulama tarihi, "bilgilendirme amaçlıdır" notu.
+- Mobil öncelikli, klavyeyle kullanılabilir, yeterli kontrast,
+  JS kapalıyken de açıklama metni görünür. Lighthouse hedefi >= 95.
+- Tasarım: jenerik şablon görünümü yok; sade, hızlı, tek vurgu rengi,
+  sistem fontu, açık/koyu tema.
+
+5) ÇALIŞMA ŞEKLİ
+- Büyük değişiklikten önce plan çıkar, onay bekle.
+- Küçük adımlar: tek araç veya tek bileşen. Her adım sonunda:
+  ne değişti, hangi komutları çalıştırdın, test çıktısı, sonra git commit.
+- Kota sınırlı: gereksiz tekrar yazma, tüm projeyi yeniden üretme.
+- Komutlar: npm run dev | npm test | npm run build | npm run preview
+- Yerel adres: http://localhost:4321 (ağdan test: npm run dev -- --host)
+
+6) KLASÖR YAPISI (plan onaylanınca güncelle)
+ src/lib/        saf hesaplama fonksiyonları
+ src/data/       yıllık parametreler (JSON, kaynaklı)
+ src/pages/      sayfalar
+ src/components/ ortak bileşenler
+ tests/          birim testleri
+ docs/           plan, doğrulama raporu
+ Notlar.txt      bu dosya
+ AGENTS.md       kısa kural özeti (bu dosyaya referans verir)
+
+7) DOĞRULAMA DURUMU (güncel tut: DOĞRULANDI / ÇELİŞKİLİ / YOK)
+ Maaş:
+ - 2026 brüt/net asgari ücret ........ [ ]
+ - Yıl ortası asgari ücret değişikliği [ ]
+ - SGK işçi %, işsizlik % ............ [ ]
+ - SGK taban/tavan ................... [ ]
+ - Damga vergisi oranı ............... [ ]
+ - Gelir vergisi 5 dilim (sınır+oran)  [ ]
+ - Asgari ücret gelir/damga istisnası  [ ]
+ - Kümülatif matrah yöntemi .......... [ ]
+ - AGİ durumu ........................ [ ]
+ - Part-time prim kuralı ............. [ ]
+ - Stajyer ücret/SGK kuralı .......... [ ]
+ Sınav:
+ - ALES/2 tarihi (ÇELİŞKİLİ: 26 Tem / 2 Ağu) [ ]
+ - ALES/3, YDS/2, KPSS Ön Lisans/Ortaöğretim tarihleri [ ]
+ - KPSS DHBT tarihi .................. [ ]
+ - Oturum saatleri ................... [ ]
+ AGNO:
+ - Varsayılan harf notu/katsayı tablosu [ ]
+ - Kredi mi AKTS mi, yuvarlama, tekrar kuralı [ ]
+ - 100'lük -> 4'lük dönüşüm (YÖK) .... [ ]
+ Yayın:
+ - AdSense koşulları, KVKK/çerez, Cloudflare limitleri [ ]
+
+8) PARA KAZANMA PLANI
+- Önce içerik ve trafik. Reklam başvurusu yeterli sayfa ve ziyaretçiden sonra.
+- AdSense için kendi alan adı gerekecek (pratikte ücretsiz alt alan adı zor).
+- Reklamdan önce: gizlilik politikası, çerez/KVKK metni, hakkında, iletişim.
+- Gelir beklentisi ilk 3-6 ay sıfır olabilir; asıl getiri deneyim.
+
+9) RİSKLER
+- Yanlış hesap güveni bitirir: her formül resmi kaynakla doğrulanır.
+- Yıllık güncelleme gerekir (vergi, asgari ücret, ÖSYM tarihleri).
+- Ajan yanlış kural uydurabilir: parametreleri kendim kontrol ederim.
+- Antigravity kotası düşebilir: küçük ve net görevler ver.
+- Toplu üretilmiş zayıf içerik arama motorunda ceza riski taşır.
+
+10) DURUM (her adım sonunda güncelle)
+ [ ] Plan onaylandı
+ [ ] Doğrulama raporu hazır
+ [ ] Proje iskeleti kuruldu
+ [ ] Sınav takvimi aracı
+ [ ] AGNO aracı
+ [ ] Brüt-net maaş aracı
+ [ ] Hakkında / gizlilik / iletişim sayfaları
+ [ ] Cloudflare Pages yayını
+ [ ] Search Console + Web Analytics
+ [ ] Alan adı
+ Son yapılan iş: ...
+ Sıradaki iş: ...
+
+11) KARAR GÜNLÜĞÜ (tarih - karar - neden)
+ 01.10.2026 - Genel hesaplayıcı yerine öğrenci odaklı araç sitesi seçildi -
+              net maaş ana kelimesi çok rekabetli, öğrenci kitlesi ve sınav
+              takvimi mevsimsel olarak güncel.
+
+12) AÇIK SORULAR
+ - Site adı?
+ - İlk örnek üniversiteler hangileri?
+ - Alan adı ne zaman ve nereden alınacak?
+==================================================
