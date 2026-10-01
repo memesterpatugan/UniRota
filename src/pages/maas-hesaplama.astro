@@ -127,6 +127,10 @@ import taxRates from '../data/tax-rates.json';
         const minWage = parseFloat(setMinWageBtn.dataset.val || '33030');
         grossInput.value = formatter.format(minWage);
         renderTable();
+        
+        if (typeof (window as any).showToast === 'function') {
+          (window as any).showToast('Asgari ücret uygulandı', 'success');
+        }
       });
 
       renderTable();
