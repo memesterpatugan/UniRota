@@ -78,6 +78,13 @@ const {
 					</button>
 				</nav>
 			</header>
+			
+			<noscript>
+				<div class="noscript-alert">
+					⚠️ Bu platformdaki hesaplama araçlarının ve özelliklerin çalışabilmesi için tarayıcınızda JavaScript'in etkinleştirilmiş olması gerekmektedir. Lütfen ayarlarınızdan aktif edip sayfayı yenileyin.
+				</div>
+			</noscript>
+
 			<slot />
 			<footer>
 				<div class="footer-links">
@@ -219,6 +226,24 @@ const {
 
 	nav a:hover {
 		text-decoration: underline;
+	}
+
+	.noscript-alert {
+		display: block;
+		background-color: #ffebee;
+		color: #c62828;
+		padding: 1rem;
+		border-radius: 8px;
+		margin-bottom: 1.5rem;
+		font-weight: 500;
+		text-align: center;
+		border: 1px solid #ffcdd2;
+	}
+
+	html.dark .noscript-alert {
+		background-color: rgba(198, 40, 40, 0.15);
+		color: #ffcdd2;
+		border-color: rgba(198, 40, 40, 0.3);
 	}
 
 	#theme-toggle {
