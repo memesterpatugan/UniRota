@@ -1,0 +1,229 @@
+---
+import Layout from '../layouts/Layout.astro';
+import taxRates from '../data/tax-rates.json';
+---
+
+<Layout title="Brüt-Net Maaş Hesaplayıcı">
+  <section>
+    <h1>Brüt-Net Maaş Hesaplayıcı (2026)</h1>
+    <p>Aylık brüt maaşınızı girerek 12 aylık kümülatif vergi matrahına ve asgari ücret istisnasına göre net maaşınızı hesaplayın.</p>
+    
+    <div class="card input-card">
+      <div class="input-group">
+        <label for="gross-input">Aylık Brüt Maaşınız (TL):</label>
+        <div class="flex-row">
+          <!-- Türkçe sayı formatını destekleyen text input -->
+          <input type="text" id="gross-input" inputmode="decimal" placeholder="33.030,00" value="33.030,00" />
+          <button id="set-min-wage-btn" class="secondary-btn" data-val={taxRates.gross_minimum_wage}>Asgari Ücret Yap</button>
+        </div>
+        <small>Türkçe formatta giriniz (Örn: 50.000,00)</small>
+      </div>
+    </div>
+
+    <div class="card table-card">
+      <div class="table-responsive">
+        <table id="salary-table">
+          <thead>
+            <tr>
+              <th>Ay</th>
+              <th>Brüt Maaş</th>
+              <th>SGK İşçi + İşsizlik</th>
+              <th>Gelir Vergisi (İstisna Düşülmüş)</th>
+              <th>Damga Vergisi</th>
+              <th>Net Maaş</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sonuçlar JS ile doldurulacak -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>Hesaplama Kriterleri (2026)</h3>
+      <ul>
+        <li><strong>Brüt Asgari Ücret:</strong> {taxRates.gross_minimum_wage.toLocaleString('tr-TR')} TL</li>
+        <li><strong>Net Asgari Ücret:</strong> {taxRates.net_minimum_wage.toLocaleString('tr-TR')} TL</li>
+        <li><strong>SGK Prim Tavanı:</strong> {taxRates.sgk_ceiling.toLocaleString('tr-TR')} TL</li>
+        <li>Gelir ve Damga vergisi kesintilerinden, o ayki asgari ücretin vergisi kadar "İstisna" düşülmüştür.</li>
+      </ul>
+      <p class="small-text mt-1">Kaynak: <a href="https://www.csgb.gov.tr" target="_blank">ÇSGB</a> ve <a href="https://www.gib.gov.tr" target="_blank">GİB</a>. Sadece bilgilendirme amaçlıdır.</p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { calculateYearlySalary, type SalaryParams } from '../lib/calculate-salary';
+  import taxRates from '../data/tax-rates.json';
+
+  const params: SalaryParams = taxRates as SalaryParams;
+  const grossInput = document.getElementById('gross-input') as HTMLInputElement;
+  const setMinWageBtn = document.getElementById('set-min-wage-btn') as HTMLButtonElement;
+  const tbody = document.querySelector('#salary-table tbody')!;
+
+  const formatter = new Intl.NumberFormat('tr-TR', { 
+    minimumFractionDigits: 2, 
+    maximumFractionDigits: 2 
+  });
+
+  // Türkçe formatlanmış metni sayıya çeviren yardımcı fonksiyon
+  function parseTRNumber(val: string): number {
+    if (!val) return 0;
+    // 1. Noktaları sil (binlik ayracı)
+    // 2. Virgülü noktaya çevir (ondalık ayracı)
+    const cleanStr = val.replace(/\./g, '').replace(',', '.');
+    const parsed = parseFloat(cleanStr);
+    return isNaN(parsed) ? 0 : parsed;
+  }
+
+  function renderTable() {
+    const grossVal = parseTRNumber(grossInput.value);
+    
+    // Eğer girdi sıfır veya eksiyse tabloyu boşalt
+    if (grossVal <= 0) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Geçerli bir maaş giriniz.</td></tr>';
+      return;
+    }
+
+    const results = calculateYearlySalary(grossVal, params);
+    
+    const monthsTR = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+    
+    tbody.innerHTML = results.map(r => {
+      const sgkTotal = r.sgkDeduction + r.unemploymentDeduction;
+      
+      return `
+        <tr>
+          <td><strong>${monthsTR[r.month - 1]}</strong></td>
+          <td>${formatter.format(r.gross)} ₺</td>
+          <td class="deduction">-${formatter.format(sgkTotal)} ₺</td>
+          <td class="deduction">-${formatter.format(r.payableIncomeTax)} ₺</td>
+          <td class="deduction">-${formatter.format(r.payableStampTax)} ₺</td>
+          <td class="net-salary"><strong>${formatter.format(r.netSalary)} ₺</strong></td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Giriş yapıldığında (Kullanıcı yazmayı bıraktığında formatlayıp hesapla)
+  grossInput.addEventListener('blur', () => {
+    const val = parseTRNumber(grossInput.value);
+    grossInput.value = formatter.format(val);
+    renderTable();
+  });
+
+  // Kullanıcı yazarken enter'a basarsa hesapla
+  grossInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      grossInput.blur();
+    }
+  });
+
+  // Asgari Ücret Butonu
+  setMinWageBtn.addEventListener('click', () => {
+    const minWage = parseFloat(setMinWageBtn.dataset.val!);
+    grossInput.value = formatter.format(minWage);
+    renderTable();
+  });
+
+  // Sayfa yüklendiğinde hesapla
+  renderTable();
+</script>
+
+<style>
+  .card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: var(--container-bg);
+    margin-top: 1.5rem;
+  }
+  .input-card {
+    background: var(--bg-color);
+  }
+  .info-card {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: rgba(0, 95, 204, 0.05); /* Açık primary color */
+    border-left: 4px solid var(--primary-color);
+  }
+  .info-card ul {
+    margin-top: 0.5rem;
+    margin-left: 1.5rem;
+    line-height: 1.8;
+  }
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .input-group label {
+    font-weight: 600;
+  }
+  .flex-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+  input[type="text"] {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--text-color);
+    background: var(--container-bg);
+  }
+  .secondary-btn {
+    background: var(--border-color);
+    color: var(--text-color);
+    border: none;
+    padding: 0 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .secondary-btn:hover {
+    opacity: 0.8;
+  }
+  .table-responsive {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 0.75rem;
+    text-align: right;
+    border-bottom: 1px solid var(--border-color);
+    white-space: nowrap;
+  }
+  th:first-child, td:first-child {
+    text-align: left;
+  }
+  th {
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 0.9rem;
+  }
+  .deduction {
+    color: #dc3545;
+  }
+  .net-salary {
+    color: #28a745;
+    font-size: 1.1rem;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .deduction { color: #ff6b6b; }
+    .net-salary { color: #51cf66; }
+  }
+  
+  .mt-1 { margin-top: 1rem; }
+  .small-text { font-size: 0.85rem; opacity: 0.8; }
+</style>
