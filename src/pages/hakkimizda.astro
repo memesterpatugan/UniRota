@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="UniRota | Hakkımızda ve İletişim">
+  <div class="about-container">
+    <div class="hero-section">
+      <h1>Hakkımızda & İletişim</h1>
+      <p class="subtitle">Eğitim ve Kariyer Yolculuğunuzdaki Ücretsiz Pusulanız</p>
+    </div>
+
+    <div class="content-section">
+      <section class="about-block">
+        <h2>UniRota Nedir?</h2>
+        <p>
+          UniRota, Türkiye'deki üniversite öğrencileri ve yeni mezunlar için geliştirilmiş, tamamen ücretsiz ve reklamsız bir hesaplama/araç platformudur. 
+          Amacımız, öğrencilerin eğitim hayatları boyunca (AGNO hesaplama, sınav takibi) ve mezuniyet sonrasındaki iş hayatlarında (maaş ve vergi hesaplamaları) ihtiyaç duydukları tüm araçları tek bir çatı altında, en hızlı ve güvenilir şekilde sunmaktır.
+        </p>
+      </section>
+
+      <section class="about-block">
+        <h2>Misyonumuz</h2>
+        <p>
+          Karmaşık formüllerle, bol reklamlı ve yavaş sitelerle uğraşmadan; tamamen kullanıcı odaklı, temiz arayüzlü ve anında sonuç veren araçlar geliştirmek temel vizyonumuzdur. UniRota'daki tüm veriler ve hesaplamalar her zaman güncel resmi kaynaklardan beslenir.
+        </p>
+      </section>
+
+      <section class="contact-block">
+        <h2>İletişim</h2>
+        <p>
+          Her türlü soru, görüş, öneri ve iş birliği talepleriniz için bize aşağıdaki e-posta adresinden 7/24 ulaşabilirsiniz. Geri bildirimleriniz, platformumuzu geliştirmemiz için en önemli rehberimizdir.
+        </p>
+        
+        <div class="contact-card">
+          <div class="icon">✉️</div>
+          <div class="email-details">
+            <span class="label">E-Posta Adresimiz</span>
+            <a href="mailto:EKLENECEK_MAIL_ADRESI" class="email-link" id="contact-email">EKLENECEK_MAIL_ADRESI</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .about-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  .hero-section {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .hero-section h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    font-size: 1.1rem;
+    color: #6c757d;
+  }
+  .content-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+  .about-block h2, .contact-block h2 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(128, 128, 128, 0.2);
+  }
+  .about-block p, .contact-block p {
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+  .contact-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: var(--container-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+  }
+  .contact-card .icon {
+    font-size: 2.5rem;
+  }
+  .email-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .email-details .label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+  }
+  .email-link {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .email-link:hover {
+    opacity: 0.8;
+  }
+  
+  html.dark .subtitle {
+    color: #adb5bd;
+  }
+</style>
