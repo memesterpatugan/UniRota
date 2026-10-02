@@ -34,5 +34,14 @@
     "application_end": "2026-06-18",
     "source_url": "https://www.osym.gov.tr",
     "verified_at": "2026-10-01"
+  },
+  {
+    "id": "kpss-ortaogretim",
+    "name": "KPSS Ortaöğretim",
+    "exam_date": "2026-10-25",
+    "application_start": "2026-08-01",
+    "application_end": "2026-08-15",
+    "source_url": "https://www.osym.gov.tr",
+    "verified_at": "2026-10-02"
   }
 ]
